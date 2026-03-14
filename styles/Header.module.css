@@ -1,33 +1,58 @@
+/* ==================== Header 组件样式文件 ==================== */
+/* 作用：控制页面顶部 Header 区域的样式（Logo、导航链接等） */
+/* 修改目的：隐藏 Header 区域，消除顶部空白、边框和间距 */
+/* 恢复方法：取消注释 "原样式" 块，注释掉 "修改后" 块即可 */
+
+/* ========== 核心 Header 容器样式 ========== */
+/* 原样式（保留，方便后续恢复）
 .header {
-  height: rem(56px);
-  margin-bottom: rem(100px);
-  background-color: var(--mantine-color-body);
-  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  height: rem(56px);               // Header 容器高度（56px）
+  margin-bottom: rem(100px);       // Header 底部外间距（100px，导致页面顶部空白）
+  background-color: var(--mantine-color-body); // 背景色（跟随主题）
+  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); // 底部边框（浅灰/深灰，根据主题切换）
+}
+*/
+
+/* 修改后：完全隐藏 Header 容器，消除所有视觉残留 */
+.header {
+  display: none;                   /* 核心：彻底隐藏容器（从页面流中移除，不占任何空间） */
+  height: 0;                       /* 兜底：强制高度为0（防止 display: none 失效） */
+  margin-bottom: 0;                /* 兜底：清空底部外间距（消除顶部空白） */
+  border-bottom: none;             /* 兜底：去掉底部边框（消除分割线） */
+  background-color: transparent;   /* 兜底：背景透明（防止残留背景色） */
 }
 
+/* ========== Header 内部布局样式 ========== */
+/* 作用：控制 Header 内部元素（Logo、链接）的排版 */
+/* 说明：因 Header 已隐藏，此样式暂不生效，保留用于后续恢复 */
 .inner {
-  height: rem(56px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: rem(56px);               // 内部容器高度（和 Header 保持一致）
+  display: flex;                   // Flex 布局（横向排列）
+  justify-content: space-between;  // 元素两端对齐（Logo 左，链接右）
+  align-items: center;             // 元素垂直居中
 }
 
+/* ========== 头部链接样式 ========== */
+/* 作用：控制 Header 中导航链接（Incidents、官网、联系管理员等）的样式 */
+/* 说明：因 Header 已隐藏，此样式暂不生效，保留用于后续恢复 */
 .link {
-  display: block;
-  line-height: 1;
-  padding: rem(8px) rem(12px);
-  border-radius: var(--mantine-radius-sm);
-  text-decoration: none;
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
-  font-size: var(--mantine-font-size-sm);
-  font-weight: 500;
+  display: block;                  // 块级元素（独占一行）
+  line-height: 1;                  // 行高重置为1（避免文字垂直偏移）
+  padding: rem(8px) rem(12px);     // 内边距（8px 上下，12px 左右）
+  border-radius: var(--mantine-radius-sm); // 圆角（小尺寸，跟随主题）
+  text-decoration: none;           // 去掉下划线
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0)); // 文字颜色（浅灰7/深黑0，跟随主题）
+  font-size: var(--mantine-font-size-sm); // 字体大小（小尺寸，跟随主题）
+  font-weight: 500;                // 字体粗细（中等）
 
+  /* 鼠标悬浮样式 */
   @mixin hover {
-    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6)); // 悬浮背景色（浅灰0/深灰6）
   }
 
+  /* 高亮链接样式（如 "联系管理员"） */
   [data-mantine-color-scheme] &[data-active] {
-    background-color: var(--mantine-color-blue-filled);
-    color: var(--mantine-color-white);
+    background-color: var(--mantine-color-blue-filled); // 背景色（蓝色填充）
+    color: var(--mantine-color-white);                  // 文字色（白色）
   }
 }
