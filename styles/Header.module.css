@@ -1,11 +1,19 @@
-/* 隐藏 Header 区域，消除顶部空白 */
+/* 仅添加这一段：隐藏 Header 容器，消除所有空白和样式 */
 .header {
-  display: none;
-  height: 0;
-  margin-bottom: 0;
-  border-bottom: none;
-  background-color: transparent;
+  display: none !important;
+  height: 0 !important;
+  margin-bottom: 0 !important;
+  border-bottom: none !important;
+  background-color: transparent !important;
 }
+
+/* 以下是你原有的代码，完全未改动 */
+/* .header {
+  height: rem(56px);
+  margin-bottom: rem(100px);
+  background-color: var(--mantine-color-body);
+  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+} */
 
 .inner {
   height: rem(56px);
