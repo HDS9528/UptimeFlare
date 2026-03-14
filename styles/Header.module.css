@@ -6,10 +6,10 @@
 /* ========== 核心 Header 容器样式 ========== */
 /* 原样式（保留，方便后续恢复）
 .header {
-  height: rem(56px);               /* Header 容器高度（56px） */
-  margin-bottom: rem(100px);       /* Header 底部外间距（100px，导致页面顶部空白） */
-  background-color: var(--mantine-color-body); /* 背景色（跟随主题） */
-  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4)); /* 底部边框（浅灰/深灰，根据主题切换） */
+  height: rem(56px);
+  margin-bottom: rem(100px);
+  background-color: var(--mantine-color-body);
+  border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
 }
 */
 
