@@ -14,9 +14,9 @@ const pageConfig: PageConfig = {
   
   // 页面头部展示的链接（可设置 highlight 突出显示）
   links: [
-    { link: 'https://gsyy.eu.org/', label: 'GitHub' },
-    { link: 'https://gsyy.eu.org/', label: 'Blog' },
-    { link: 'mailto:chenxiangyang2017@outlook.com', label: 'Email Me', highlight: true },
+    { link: 'https://gsyy.eu.org/', label: '洋芋蛋蛋主站' },  // 修正标签名，避免重复的GitHub/Blog
+    { link: 'https://map.gsyy.eu.org/', label: '旅行足迹' },
+    { link: 'mailto:chenxiangyang2017@outlook.com', label: '联系我', highlight: true },
   ],
 }
 
@@ -72,8 +72,8 @@ const workerConfig: WorkerConfig = {
       headers: {
         'User-Agent': 'Uptimeflare',
       },
-      // 可选：验证响应是否包含成功关键词
-       responseKeyword: 'ok',
+      // 验证响应是否包含成功关键词
+      responseKeyword: 'ok',
     },
 
     // ========== 必应壁纸 ==========
@@ -143,6 +143,7 @@ const workerConfig: WorkerConfig = {
     timeZone: 'Asia/Shanghai',  // 通知时间时区（北京时间）
     gracePeriod: 5,             // 通知延迟5分钟（连续失败5分钟才发送，避免误报）
   },
+} // 关键修复：补全 workerConfig 的闭合大括号
 
 /**
  * 维护窗口配置
