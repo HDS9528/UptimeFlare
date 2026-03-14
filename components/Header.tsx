@@ -20,19 +20,15 @@ export default function Header({ style }: { style?: React.CSSProperties }) {
     )
   }
 
-  // ========== 注释说明 ==========
-  // 原代码包含 Incidents（故障/事件）链接 + 配置文件的自定义链接
-  // 改为空数组，隐藏所有头部链接（Incidents + 官网/联系管理员等）
-  // 如需恢复：取消注释下面这行，注释掉空数组行
-  // const links = [{ label: t('Incidents'), link: '/incidents' }, ...(pageConfig.links || [])]
+  // 隐藏所有头部链接（Incidents + 自定义链接）
+  // 恢复方式：注释下行，取消注释下下行
   const links = [];
+  // const links = [{ label: t('Incidents'), link: '/incidents' }, ...(pageConfig.links || [])]
 
   return (
     <header className={classes.header} style={style}>
       <Container size="md" className={classes.inner}>
-        {/* ========== 注释说明 ========== */}
-        {/* Logo 图片区域：包含 Logo 图片和跳转链接 */}
-        {/* 如需恢复 Logo：取消注释整个 <div> 块即可 */}
+        {/* Logo 区域已注释隐藏，恢复取消注释即可 */}
         {/*
         <div>
           <a
@@ -50,18 +46,14 @@ export default function Header({ style }: { style?: React.CSSProperties }) {
         </div>
         */}
 
-        {/* ========== 注释说明 ========== */}
-        {/* 大屏端（sm及以上）显示的头部链接组 */}
-        {/* 如需恢复：取消注释该 <Group> 块即可 */}
+        {/* 大屏端链接组已隐藏，恢复取消注释即可 */}
         {/*
         <Group gap={5} visibleFrom="sm">
           {links?.map(linkToElement)}
         </Group>
         */}
 
-        {/* ========== 注释说明 ========== */}
-        {/* 小屏端（sm以下）显示的头部链接组（仅高亮/内部链接） */}
-        {/* 如需恢复：取消注释该 <Group> 块即可 */}
+        {/* 小屏端链接组已隐藏，恢复取消注释即可 */}
         {/*
         <Group gap={5} hiddenFrom="sm">
           {links?.filter((link) => link.highlight || link.link.startsWith('/')).map(linkToElement)}
