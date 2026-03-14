@@ -1,16 +1,25 @@
+// This is a simplified example config file for quickstart
+// Some not frequently used features are omitted/commented out here
+// For a full-featured example, please refer to `uptime.config.full.ts`
+
+// Don't edit this line
 import { MaintenanceConfig, PageConfig, WorkerConfig } from './types/config'
 
 const pageConfig: PageConfig = {
+  // Title for your status page
   title: "洋芋蛋蛋的服务状态页",
+  // Links shown at the header of your status page, could set `highlight` to `true`
   links: [
-    { link: 'https://gsyy.eu.org/', label: '洋芋蛋蛋主站' },
-    { link: 'https://map.gsyy.eu.org/', label: '旅行足迹' },
-    { link: 'mailto:chenxiangyang2017@outlook.com', label: '联系我', highlight: true }
-  ]
-};
+    { link: 'https://gsyy.eu.org', label: '洋芋蛋蛋主站' },
+    { link: 'https://map.gsyy.eu.org', label: '旅行足迹' },
+    { link: 'mailto:chenxiangyang2017@outlook.com', label: 'Email Me', highlight: true },
+  ],
+}
 
 const workerConfig: WorkerConfig = {
+  // Define all your monitors here
   monitors: [
+    // 洋芋蛋蛋主站
     {
       id: 'gsyy_main',
       name: '洋芋蛋蛋主站',
@@ -20,8 +29,11 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      headers: { 'User-Agent': 'Uptimeflare' }
+      headers: {
+        'User-Agent': 'Uptimeflare',
+      },
     },
+    // 黑老大的旅行足迹
     {
       id: 'gsyy_map',
       name: '黑老大的旅行足迹',
@@ -31,8 +43,11 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://map.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      headers: { 'User-Agent': 'Uptimeflare' }
+      headers: {
+        'User-Agent': 'Uptimeflare',
+      },
     },
+    // Bark推送工具
     {
       id: 'gsyy_bark',
       name: 'Bark推送工具',
@@ -42,9 +57,12 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://bark.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      headers: { 'User-Agent': 'Uptimeflare' },
-      responseKeyword: 'ok'
+      headers: {
+        'User-Agent': 'Uptimeflare',
+      },
+      responseKeyword: 'ok',
     },
+    // 必应壁纸
     {
       id: 'gsyy_image',
       name: '必应壁纸服务',
@@ -54,8 +72,11 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://image.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      headers: { 'User-Agent': 'Uptimeflare' }
+      headers: {
+        'User-Agent': 'Uptimeflare',
+      },
     },
+    // GitHub文件加速
     {
       id: 'gsyy_github',
       name: 'GitHub文件加速',
@@ -65,8 +86,11 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://github.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      headers: { 'User-Agent': 'Uptimeflare' }
+      headers: {
+        'User-Agent': 'Uptimeflare',
+      },
     },
+    // Docker代理
     {
       id: 'gsyy_docker',
       name: 'Docker代理服务',
@@ -76,22 +100,38 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://docker.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      headers: { 'User-Agent': 'Uptimeflare' }
-    }
+      headers: {
+        'User-Agent': 'Uptimeflare',
+      },
+    },
   ],
+  // [Optional] Notification settings
   notification: {
+    // [Optional] Notification webhook settings, if not specified, no notification will be sent
     webhook: {
+      // 你的Bark推送专属地址
       url: 'https://bark.gsyy.eu.org/y5Lf3dVoTARBd5ytu2po5X',
       method: 'GET',
       payloadType: 'param',
-      payload: { title: '服务状态提醒', body: '$MSG', sound: 'bell', isArchive: 1 },
-      timeout: 10000
+      payload: {
+        title: '服务状态提醒',
+        body: '$MSG',
+        sound: 'bell',
+        isArchive: 1,
+      },
+      timeout: 10000,
     },
     timeZone: 'Asia/Shanghai',
-    gracePeriod: 5
-  }
-}; // 强制添加分号，避免解析歧义
+    gracePeriod: 5,
+  },
+}
 
-const maintenances: MaintenanceConfig[] = [];
+// You can define multiple maintenances here
+// During maintenance, an alert will be shown at status page
+// Also, related downtime notifications will be skipped (if any)
+// Of course, you can leave it empty if you don't need this feature
 
-export { maintenances, pageConfig, workerConfig };
+const maintenances: MaintenanceConfig[] = []
+
+// Don't edit this line
+export { maintenances, pageConfig, workerConfig }
