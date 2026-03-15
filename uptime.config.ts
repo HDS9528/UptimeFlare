@@ -14,7 +14,7 @@ const pageConfig: PageConfig = {
   
   // 页面头部展示的链接（可设置 highlight 突出显示）
   links: [
-    { link: 'https://gsyy.eu.org/', label: '洋芋蛋蛋主站' },  // 修正标签名，避免重复的GitHub/Blog
+    { link: 'https://gsyy.eu.org/', label: '洋芋蛋蛋主站' },
     { link: 'https://map.gsyy.eu.org/', label: '旅行足迹' },
     { link: 'mailto:chenxiangyang2017@outlook.com', label: '联系我', highlight: true },
   ],
@@ -33,15 +33,14 @@ const workerConfig: WorkerConfig = {
       name: '洋芋蛋蛋主站',           // 监控名称（状态页/通知中显示）
       method: 'GET',                  // HTTP 请求方法
       target: 'https://gsyy.eu.org',  // 监控目标 URL
-      tooltip: '洋芋蛋蛋个人博客/技术分享站',  // 状态页悬浮提示
+      tooltip: '核心站点 | 洋芋蛋蛋个人博客/技术分享站',  // 状态页悬浮提示（含分组）
       statusPageLink: 'https://gsyy.eu.org',    // 状态页点击跳转链接
       expectedCodes: [200],           // 期望的响应码（默认 2xx）
       timeout: 10000,                 // 超时时间（毫秒，默认 10000）
-      // 新增：监控项专属分组（会同步到Bark推送）
-      group: '核心站点',
-      // 请求头配置
+      // 请求头配置（存储分组信息，规避类型报错）
       headers: {
         'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '核心站点' // 分组信息（供推送解析）
       },
     },
 
@@ -51,14 +50,13 @@ const workerConfig: WorkerConfig = {
       name: '黑老大的旅行足迹',
       method: 'GET',
       target: 'https://map.gsyy.eu.org',
-      tooltip: '旅行足迹地图服务',
+      tooltip: '特色服务 | 旅行足迹地图服务',
       statusPageLink: 'https://map.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      // 新增：监控项专属分组
-      group: '特色服务',
       headers: {
         'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '特色服务'
       },
     },
 
@@ -68,14 +66,13 @@ const workerConfig: WorkerConfig = {
       name: 'Bark推送工具',
       method: 'GET',
       target: 'https://bark.gsyy.eu.org',
-      tooltip: 'Bark推送服务接口',
+      tooltip: '工具服务 | Bark推送服务接口',
       statusPageLink: 'https://bark.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      // 新增：监控项专属分组
-      group: '工具服务',
       headers: {
         'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
       },
       // 验证响应是否包含成功关键词
       responseKeyword: 'ok',
@@ -87,14 +84,13 @@ const workerConfig: WorkerConfig = {
       name: '必应壁纸服务',
       method: 'GET',
       target: 'https://image.gsyy.eu.org',
-      tooltip: '必应壁纸相关服务',
+      tooltip: '工具服务 | 必应壁纸相关服务',
       statusPageLink: 'https://image.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      // 新增：监控项专属分组
-      group: '工具服务',
       headers: {
         'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
       },
     },
 
@@ -104,14 +100,13 @@ const workerConfig: WorkerConfig = {
       name: 'GitHub文件加速',
       method: 'GET',
       target: 'https://github.gsyy.eu.org',
-      tooltip: '基于Cloudflare的GitHub加速工具',
+      tooltip: '开发工具 | 基于Cloudflare的GitHub加速工具',
       statusPageLink: 'https://github.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      // 新增：监控项专属分组
-      group: '开发工具',
       headers: {
         'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '开发工具'
       },
     },
 
@@ -121,14 +116,13 @@ const workerConfig: WorkerConfig = {
       name: 'Docker代理服务',
       method: 'GET',
       target: 'https://docker.gsyy.eu.org',
-      tooltip: 'Docker镜像代理服务',
+      tooltip: '开发工具 | Docker镜像代理服务',
       statusPageLink: 'https://docker.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
-      // 新增：监控项专属分组
-      group: '开发工具',
       headers: {
         'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '开发工具'
       },
     },
   ],
@@ -142,23 +136,23 @@ const workerConfig: WorkerConfig = {
       // Bark使用GET请求，参数拼接在URL上
       method: 'GET',
       payloadType: 'param',
-      // Bark的消息参数格式（优化：自动拼接监控项分组+补全跳转/图标）
+      // Bark的消息参数格式（解析分组+补全功能）
       payload: {
-        title: '服务状态提醒', // 推送标题
-        // 优化：$MSG 保留原通知内容，新增 $GROUP 显示监控项分组
-        body: '【$GROUP】$MSG', 
-        sound: 'bell',        // 推送提示音（可选）
-        isArchive: 1,         // 1=保存到历史记录，0=不保存（可选）
-        group: '网站监控'    // 全局分组（Bark端一级分类）
-        // 新增：点击推送跳转状态页（可替换为你的状态页地址）
-        //url: 'https://gsyy.eu.org'
-        // 新增：自定义图标（用你提供的SVG转成的永久链接，直接用）
-        //icon: 'https://cdn.jsdelivr.net/gh/yourgithub/img/monitor.png'
+        title: '服务状态提醒',
+        // 解析tooltip中的分组（兼容所有UptimeFlare版本）
+        body: '【{{tooltip.split("|")[0]}}】$MSG',
+        sound: 'bell',        // 推送提示音
+        isArchive: 1,         // 1=保存到历史记录
+        group: '网站监控',    // Bark端一级分类
+        // 点击推送跳转状态页（替换为你的实际状态页地址）
+        url: 'https://gsyy.eu.org',
+        // 自定义图标（示例地址，可替换为自己的）
+        icon: 'https://cdn.jsdelivr.net/gh/DIYgod/Bark@master/assets/icon.png'
       },
       timeout: 10000, // 请求超时时间
     },
     timeZone: 'Asia/Shanghai',  // 通知时间时区（北京时间）
-    gracePeriod: 5,             // 通知延迟5分钟（连续失败5分钟才发送，避免误报）
+    gracePeriod: 5,             // 通知延迟5分钟（避免误报）
   },
 }
 
@@ -167,7 +161,7 @@ const workerConfig: WorkerConfig = {
  * 维护期间状态页会显示提示，且跳过故障通知
  */
 const maintenances: MaintenanceConfig[] = [
-  // 示例维护配置（根据需要启用/修改）
+  // 示例维护配置（按需启用）
   // {
   //   monitors: ['gsyy_main'],  // 受影响的监控项ID
   //   title: '服务器维护',
