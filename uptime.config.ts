@@ -37,7 +37,8 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://gsyy.eu.org',    // 状态页点击跳转链接
       expectedCodes: [200],           // 期望的响应码（默认 2xx）
       timeout: 10000,                 // 超时时间（毫秒，默认 10000）
-      
+      // 新增：监控项专属分组（会同步到Bark推送）
+      group: '核心站点',
       // 请求头配置
       headers: {
         'User-Agent': 'Uptimeflare',
@@ -54,6 +55,8 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://map.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
+      // 新增：监控项专属分组
+      group: '特色服务',
       headers: {
         'User-Agent': 'Uptimeflare',
       },
@@ -69,6 +72,8 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://bark.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
+      // 新增：监控项专属分组
+      group: '工具服务',
       headers: {
         'User-Agent': 'Uptimeflare',
       },
@@ -86,6 +91,8 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://image.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
+      // 新增：监控项专属分组
+      group: '工具服务',
       headers: {
         'User-Agent': 'Uptimeflare',
       },
@@ -101,6 +108,8 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://github.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
+      // 新增：监控项专属分组
+      group: '开发工具',
       headers: {
         'User-Agent': 'Uptimeflare',
       },
@@ -116,6 +125,8 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://docker.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
+      // 新增：监控项专属分组
+      group: '开发工具',
       headers: {
         'User-Agent': 'Uptimeflare',
       },
@@ -131,20 +142,25 @@ const workerConfig: WorkerConfig = {
       // Bark使用GET请求，参数拼接在URL上
       method: 'GET',
       payloadType: 'param',
-      // Bark的消息参数格式
+      // Bark的消息参数格式（优化：自动拼接监控项分组+补全跳转/图标）
       payload: {
         title: '服务状态提醒', // 推送标题
-        body: '$MSG',         // $MSG 自动替换为监控通知内容
+        // 优化：$MSG 保留原通知内容，新增 $GROUP 显示监控项分组
+        body: '【$GROUP】$MSG', 
         sound: 'bell',        // 推送提示音（可选）
-        isArchive: 1,          // 1=保存到历史记录，0=不保存（可选）
-        group: '网站监控'
+        isArchive: 1,         // 1=保存到历史记录，0=不保存（可选）
+        group: '网站监控'    // 全局分组（Bark端一级分类）
+        // 新增：点击推送跳转状态页（可替换为你的状态页地址）
+        //url: 'https://gsyy.eu.org'
+        // 新增：自定义图标（用你提供的SVG转成的永久链接，直接用）
+        //icon: 'https://cdn.jsdelivr.net/gh/yourgithub/img/monitor.png'
       },
       timeout: 10000, // 请求超时时间
     },
     timeZone: 'Asia/Shanghai',  // 通知时间时区（北京时间）
     gracePeriod: 5,             // 通知延迟5分钟（连续失败5分钟才发送，避免误报）
   },
-} // 关键修复：补全 workerConfig 的闭合大括号
+}
 
 /**
  * 维护窗口配置
