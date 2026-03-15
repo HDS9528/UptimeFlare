@@ -155,8 +155,6 @@ const workerConfig: WorkerConfig = {
       // Bark的消息参数格式（解析分组+补全功能）
       payload: {
         title: '服务状态提醒',
-        // 解析tooltip中的分组（兼容所有UptimeFlare版本）
-        body: '【{{tooltip.split("|")[0]}}】$MSG',
         sound: 'bell',        // 推送提示音
         isArchive: 1,         // 1=保存到历史记录
         group: '网站监控',    // Bark端一级分类
