@@ -136,7 +136,8 @@ const workerConfig: WorkerConfig = {
         title: '服务状态提醒', // 推送标题
         body: '$MSG',         // $MSG 自动替换为监控通知内容
         sound: 'bell',        // 推送提示音（可选）
-        isArchive: 1          // 1=保存到历史记录，0=不保存（可选）
+        isArchive: 1,          // 1=保存到历史记录，0=不保存（可选）
+        group: '网站监控'
       },
       timeout: 10000, // 请求超时时间
     },
