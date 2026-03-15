@@ -125,6 +125,22 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '开发工具'
       },
     },
+
+    // ========== 网站分析服务 ==========
+    {
+      id: 'gsyy_analytics',           // 唯一标识，确保不重复
+      name: '网站分析服务',           // 监控名称，展示在状态页
+      method: 'GET',                  // HTTP 请求方法
+      target: 'https://analytics.gsyy.eu.org',  // 新增的监控目标
+      tooltip: '工具服务 | 网站访问数据分析服务',  // 分组归类到工具服务
+      statusPageLink: 'https://analytics.gsyy.eu.org',  // 点击跳转链接
+      expectedCodes: [200],           // 期望响应码
+      timeout: 10000,                 // 超时时间保持一致
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务' // 分组和其他工具服务保持一致
+      },
+    },
   ],
 
   // 通知配置（使用Bark推送）
@@ -145,9 +161,9 @@ const workerConfig: WorkerConfig = {
         isArchive: 1,         // 1=保存到历史记录
         group: '网站监控',    // Bark端一级分类
         // 点击推送跳转状态页（替换为你的实际状态页地址）
-        url: 'https://gsyy.eu.org',
+        url: 'https://up.gsyy.eu.org'
         // 自定义图标（示例地址，可替换为自己的）
-        icon: 'https://cdn.jsdelivr.net/gh/DIYgod/Bark@master/assets/icon.png'
+        //icon: 'https://cdn.jsdelivr.net/gh/DIYgod/Bark@master/assets/icon.png'
       },
       timeout: 10000, // 请求超时时间
     },
