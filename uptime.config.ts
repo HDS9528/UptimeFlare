@@ -22,7 +22,6 @@ const pageConfig: PageConfig = {
       'gsyy_bark', 
       'gsyy_image', 
       'gsyy_analytics', 
-      'gsyy_gallery', 
       'gsyy_imbad', 
       'gsyy_memos', 
       'gsyy_cloudpaste'
@@ -123,20 +122,6 @@ const workerConfig: WorkerConfig = {
       target: 'https://analytics.gsyy.eu.org',
       tooltip: '工具服务 | 网站访问数据分析服务',
       statusPageLink: 'https://analytics.gsyy.eu.org',
-      expectedCodes: [200],
-      timeout: 10000,
-      headers: {
-        'User-Agent': 'Uptimeflare',
-        'X-Monitor-Group': '工具服务'
-      },
-    },
-    {
-      id: 'gsyy_gallery',
-      name: '图库服务',
-      method: 'GET',
-      target: 'https://gallery.gsyy.eu.org',
-      tooltip: '工具服务 | 个人图库/图片托管服务',
-      statusPageLink: 'https://gallery.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
       headers: {
