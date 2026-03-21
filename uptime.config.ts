@@ -32,39 +32,7 @@ const pageConfig: PageConfig = {
     '💻 开发工具': ['gsyy_github', 'gsyy_docker']
   },
 
- // 👇 核心：注入自定义JS控制分组展开/折叠
-  customFooter: `
-    <script>
-      // 页面加载完成后执行
-      window.onload = function() {
-        // 1. 先默认折叠所有分组（可选，确保初始状态统一）
-        document.querySelectorAll('.group-header').forEach(header => {
-          const groupContent = header.nextElementSibling;
-          groupContent.style.display = 'none'; // 折叠
-          header.setAttribute('data-collapsed', 'true');
-        });
 
-        // 2. 指定要展开的分组名称（修改这里即可控制个别分组）
-        const expandGroups = ['🌐 核心站点', '🗺️ 特色服务'];
-        
-        // 3. 展开指定分组
-        expandGroups.forEach(groupName => {
-          const groupHeader = Array.from(document.querySelectorAll('.group-header')).find(
-            header => header.textContent.trim() === groupName
-          );
-          if (groupHeader) {
-            const groupContent = groupHeader.nextElementSibling;
-            groupContent.style.display = 'block'; // 展开
-            groupHeader.setAttribute('data-collapsed', 'false');
-          }
-        });
-      };
-    </script>
-  `,
-
-
-
-  
   // [可选] 设置网站图标的路径，未指定时默认使用 '/favicon.png'
   // favicon: 'https://gsyy.eu.org/favicon.ico',
   // [可选] 设置Logo的路径，未指定时默认使用 '/logo.svg'
@@ -76,7 +44,7 @@ const pageConfig: PageConfig = {
     upcomingColor: 'gray',
   },
   // [可选] 自定义页脚HTML内容
-   //customFooter: '<p>洋芋蛋蛋的服务监控 © 2026</p>',
+   customFooter: '<p>洋芋蛋蛋的服务监控 © 2026</p>',
 }
 
 /**
