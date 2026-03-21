@@ -217,7 +217,7 @@ const workerConfig: WorkerConfig = {
         isArchive: '1',
         group: '网站监控',
         url: 'https://up.gsyy.eu.org',
-        icon: 'https://cdn.jsdelivr.net/gh/DIYgod/Bark@master/assets/icon.png'
+        icon: 'https://day.app/assets/images/avatar.jpg'
       },
       timeout: 10000,
     },
