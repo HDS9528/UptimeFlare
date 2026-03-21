@@ -221,7 +221,7 @@ const workerConfig: WorkerConfig = {
       timeout: 10000,
     },
     timeZone: 'Asia/Shanghai',
-    gracePeriod: 0,
+    gracePeriod: 3,
     skipErrorChangeNotification: false,
   },
 
