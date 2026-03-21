@@ -234,60 +234,65 @@ const workerConfig: WorkerConfig = {
     },
   ],
 
-  // [可选] 通知相关配置
-  notification: {
-    // [可选] 通知Webhook配置；如果不配置，将不会发送任何通知
-   webhook: {
-  url: 'https://bark.gsyy.eu.org/y5Lf3dVoTARBd5ytu2po5X',
-  method: 'POST', // 改用POST，避免URL长度问题
-  payloadType: 'json', // POST用JSON格式
-  headers: {
-    'Content-Type': 'application/json' // 必须加这个请求头
+// [可选] 通知相关配置
+notification: {
+  // [可选] 通知Webhook配置；如果不配置，将不会发送任何通知
+  // 更多信息参考Wiki：https://github.com/lyc8503/UptimeFlare/wiki/Setup-notification
+  webhook: {
+    // [必填] Webhook地址（Bark推送地址，末尾加/兼容所有版本）
+    url: 'https://bark.gsyy.eu.org/y5Lf3dVoTARBd5ytu2po5X/',
+    // [可选] HTTP请求方法；当payloadType=param时默认是'GET'
+    method: 'GET',
+    // [可选] 要发送的请求头（Bark GET接口无需额外请求头）
+    headers: {},
+    // [必填] 指定载荷（payload）的编码方式
+    payloadType: 'param', // GET方式用param，参数拼URL
+    // [必填] 要发送的载荷内容（适配Bark GET接口参数）
+    // $MSG 会被自动替换为人类可读的通知消息
+    payload: {
+      title: '服务状态提醒',
+      text: '$MSG', // Bark GET接口标准参数名（示例里是text，和这里一致）
+      sound: 'bell',
+      isArchive: '1',
+      group: '网站监控',
+      url: 'https://up.gsyy.eu.org'
+    },
+    // [可选] 调用Webhook的超时时间（毫秒），默认值为5000（5秒）
+    timeout: 10000,
   },
-  payload: {
-    title: '服务状态提醒',
-    body: '$MSG', // POST接口用body（和你原来的配置一致）
-    sound: 'bell',
-    isArchive: 1,
-    group: '网站监控',
-    url: 'https://up.gsyy.eu.org'
-  },
-  timeout: 10000,
+  // [可选] 通知消息中使用的时区，默认值为 "Etc/GMT"
+  timeZone: 'Asia/Shanghai',
+  // [可选] 发送通知前的宽限期（分钟）
+  gracePeriod: 0, // 测试阶段设0，排查完改回5
+  // [可选] 禁用指定ID的监控项的通知功能
+  // skipNotificationIds: ['gsyy_main'],
+  // [可选] 在故障期间，如果错误原因发生变化，是否抑制额外的通知；默认值为false
+  skipErrorChangeNotification: false,
 },
-    // [可选] 通知消息中使用的时区，默认值为 "Etc/GMT"
-    timeZone: 'Asia/Shanghai',
-    // [可选] 发送通知前的宽限期（分钟）
-    gracePeriod: 5,
-    // [可选] 禁用指定ID的监控项的通知功能
-    // skipNotificationIds: ['gsyy_main'],
-    // [可选] 在故障期间，如果错误原因发生变化，是否抑制额外的通知；默认值为false
-    skipErrorChangeNotification: true,
+callbacks: {
+  onStatusChange: async (
+    env: any,
+    monitor: any,
+    isUp: boolean,
+    timeIncidentStart: number,
+    timeNow: number,
+    reason: string
+  ) => {
+    // 可选：添加日志，方便排查推送问题
+    console.log(`监控项 ${monitor.id} 状态变化：${isUp ? '恢复' : '故障'}，原因：${reason}`);
   },
+  onIncident: async (
+    env: any,
+    monitor: any,
+    timeIncidentStart: number,
+    timeNow: number,
+    reason: string
+  ) => {
+    // 可选：故障持续时的自定义逻辑
+  },
+},
 
-  // [可选] 状态变化回调函数
-  callbacks: {
-    onStatusChange: async (
-      env: any,
-      monitor: any,
-      isUp: boolean,
-      timeIncidentStart: number,
-      timeNow: number,
-      reason: string
-    ) => {
-      // 当任意监控项的状态发生变化时，会调用此回调函数
-      // 可自定义扩展逻辑，比如写入日志、调用其他API等
-    },
-    onIncident: async (
-      env: any,
-      monitor: any,
-      timeIncidentStart: number,
-      timeNow: number,
-      reason: string
-    ) => {
-      // 如果任意监控项存在持续的故障，此回调函数会每分钟调用一次
-    },
-  },
-}
+  
 
 /**
  * 维护窗口配置
