@@ -212,11 +212,12 @@ const workerConfig: WorkerConfig = {
       payloadType: 'param',
       payload: {
         title: '服务状态提醒',
-        text: '$MSG',
+        body: '$MSG',
         sound: 'bell',
         isArchive: '1',
         group: '网站监控',
         url: 'https://up.gsyy.eu.org'
+        icon: 'https://cdn.jsdelivr.net/gh/DIYgod/Bark@master/assets/icon.png'
       },
       timeout: 10000,
     },
