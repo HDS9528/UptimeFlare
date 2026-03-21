@@ -237,26 +237,23 @@ const workerConfig: WorkerConfig = {
   // [可选] 通知相关配置
   notification: {
     // [可选] 通知Webhook配置；如果不配置，将不会发送任何通知
-    webhook: {
-      // [必填] Webhook地址（Bark推送地址）
-      url: 'https://bark.gsyy.eu.org/y5Lf3dVoTARBd5ytu2po5X',
-      // [可选] HTTP请求方法；当payloadType=param时默认是'GET'
-      method: 'GET',
-      // [必填] 指定载荷（payload）的编码方式
-      payloadType: 'param',
-      // [必填] 要发送的载荷内容
-      // $MSG 会被自动替换为人类可读的通知消息
-      payload: {
-        title: '服务状态提醒',
-        body: '$MSG',
-        sound: 'bell',
-        isArchive: 1,
-        group: '网站监控',
-        url: 'https://up.gsyy.eu.org'
-      },
-      // [可选] 调用Webhook的超时时间（毫秒），默认值为5000（5秒）
-      timeout: 10000,
-    },
+   webhook: {
+  url: 'https://bark.gsyy.eu.org/y5Lf3dVoTARBd5ytu2po5X',
+  method: 'POST', // 改用POST，避免URL长度问题
+  payloadType: 'json', // POST用JSON格式
+  headers: {
+    'Content-Type': 'application/json' // 必须加这个请求头
+  },
+  payload: {
+    title: '服务状态提醒',
+    body: '$MSG', // POST接口用body（和你原来的配置一致）
+    sound: 'bell',
+    isArchive: 1,
+    group: '网站监控',
+    url: 'https://up.gsyy.eu.org'
+  },
+  timeout: 10000,
+},
     // [可选] 通知消息中使用的时区，默认值为 "Etc/GMT"
     timeZone: 'Asia/Shanghai',
     // [可选] 发送通知前的宽限期（分钟）
