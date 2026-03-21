@@ -37,7 +37,6 @@ const workerConfig: WorkerConfig = {
       statusPageLink: 'https://gsyy.eu.org',    // 状态页点击跳转链接
       expectedCodes: [200],           // 期望的响应码（默认 2xx）
       timeout: 10000,                 // 超时时间（毫秒，默认 10000）
-      // 请求头配置（存储分组信息，规避类型报错）
       headers: {
         'User-Agent': 'Uptimeflare',
         'X-Monitor-Group': '核心站点' // 分组信息（供推送解析）
@@ -158,7 +157,7 @@ const workerConfig: WorkerConfig = {
       },
     },
 
-        // ========== 新增：图床服务 ==========
+    // ========== 新增：图床服务 ==========
     {
       id: 'gsyy_imbad',
       name: '图床服务',
@@ -173,7 +172,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
-  ],
 
     // ========== 新增：Memos笔记服务 ==========
     {
@@ -206,8 +204,23 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
+  ],
 
-
+  // 监控项分组配置（核心新增部分）
+  groups: {
+    '🌐 核心站点': ['gsyy_main'],
+    '🗺️ 特色服务': ['gsyy_map'],
+    '🔧 工具服务': [
+      'gsyy_bark', 
+      'gsyy_image', 
+      'gsyy_analytics', 
+      'gsyy_gallery', 
+      'gsyy_imbad', 
+      'gsyy_memos', 
+      'gsyy_cloudpaste'
+    ],
+    '💻 开发工具': ['gsyy_github', 'gsyy_docker']
+  },
 
   // 通知配置（使用Bark推送）
   notification: {
