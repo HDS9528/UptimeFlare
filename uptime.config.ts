@@ -76,7 +76,7 @@ const pageConfig: PageConfig = {
     upcomingColor: 'gray',
   },
   // [可选] 自定义页脚HTML内容
-   customFooter: '<p>洋芋蛋蛋的服务监控 © 2026</p>',
+   //customFooter: '<p>洋芋蛋蛋的服务监控 © 2026</p>',
 }
 
 /**
