@@ -141,6 +141,70 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务' // 分组和其他工具服务保持一致
       },
     },
+
+    // ========== 新增：图库服务 ==========
+    {
+      id: 'gsyy_gallery',
+      name: '图库服务',
+      method: 'GET',
+      target: 'https://gallery.gsyy.eu.org',
+      tooltip: '工具服务 | 个人图库/图片托管服务',
+      statusPageLink: 'https://gallery.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+
+    // ========== 新增：Memos笔记服务 ==========
+    {
+      id: 'gsyy_memos',
+      name: 'Memos笔记服务',
+      method: 'GET',
+      target: 'https://memos.gsyy.eu.org',
+      tooltip: '工具服务 | 轻量级笔记/备忘录服务',
+      statusPageLink: 'https://memos.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+
+    // ========== 新增：云粘贴板服务 ==========
+    {
+      id: 'gsyy_cloudpaste',
+      name: '云粘贴板服务',
+      method: 'GET',
+      target: 'https://cloudpaste.gsyy.eu.org',
+      tooltip: '工具服务 | 跨设备云粘贴板工具',
+      statusPageLink: 'https://cloudpaste.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+
+    // ========== 新增：IMBad服务 ==========
+    {
+      id: 'gsyy_imbad',
+      name: 'IMBad服务',
+      method: 'GET',
+      target: 'https://imbad.gsyy.eu.org/',
+      tooltip: '工具服务 | IMBad相关工具服务',
+      statusPageLink: 'https://imbad.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
   ],
 
   // 通知配置（使用Bark推送）
