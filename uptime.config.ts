@@ -26,7 +26,7 @@ const pageConfig: PageConfig = {
       'gsyy_memos', 
       'gsyy_cloudpaste'
     ],
-    '💻 开发工具': ['gsyy_github', 'gsyy_docker']
+    '💻 开发工具': ['gsyy_github', 'gsyy_docker', 'gsyy_workers'] // 新增：添加gsyy_workers到分组
   },
 
   // [可选] 设置网站图标的路径，未指定时默认使用 '/favicon.png'
@@ -145,7 +145,7 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'gsyy_memos',
-      name: 'Memos笔记服务',
+      name: '笔记服务',
       method: 'GET',
       target: 'https://memos.gsyy.eu.org',
       tooltip: '工具服务 | 轻量级笔记/备忘录服务',
@@ -201,6 +201,21 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '开发工具'
       },
     },
+    // 新增：Workers服务监控项
+    {
+      id: 'gsyy_workers',
+      name: 'Cloudflare Workers服务',
+      method: 'GET',
+      target: 'https://workers.gsyy.eu.org/',
+      tooltip: '开发工具 | Cloudflare Workers 自定义服务',
+      statusPageLink: 'https://workers.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '开发工具'
+      },
+    },
   ],
 
   // [可选] 通知相关配置（修正缩进，和monitors同级）
@@ -248,7 +263,7 @@ const workerConfig: WorkerConfig = {
       // 故障持续逻辑
     },
   },
-} // ← 关键：补全workerConfig的闭合}
+}
 
 /**
  * 维护窗口配置
@@ -276,7 +291,7 @@ const maintenances: MaintenanceConfig[] = [
 
       schedules.push({
         title: `${year}/${month} 例行维护`,
-        monitors: ['gsyy_github', 'gsyy_docker'],
+        monitors: ['gsyy_github', 'gsyy_docker', 'gsyy_workers'], // 新增：添加gsyy_workers到维护计划
         body: '开发工具类服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
         end: `${year}-${month}-01T03:00:00.000+08:00`,
