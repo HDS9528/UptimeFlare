@@ -24,9 +24,17 @@ const pageConfig: PageConfig = {
       'gsyy_analytics', 
       'gsyy_imbad', 
       'gsyy_memos', 
-      'gsyy_cloudpaste'
+      'gsyy_cloudpaste',
+      'gsyy_ip',        // 新增IP查询服务
+      'gsyy_moepush'    // 新增萌推服务
     ],
-    '💻 开发工具': ['gsyy_github', 'gsyy_docker', 'gsyy_workers'] // 新增：添加gsyy_workers到分组
+    '💻 开发工具': [
+      'gsyy_github', 
+      'gsyy_docker', 
+      'gsyy_workers',
+      'gsyy_nodewarden',    // 新增节点监控服务
+      'gsyy_renewhelper'   // 新增续期助手服务
+    ] 
   },
 
   // [可选] 设置网站图标的路径，未指定时默认使用 '/favicon.png'
@@ -171,6 +179,36 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
+    // 新增：IP查询服务
+    {
+      id: 'gsyy_ip',
+      name: 'IP地址查询服务',
+      method: 'GET',
+      target: 'https://ip.gsyy.eu.org',
+      tooltip: '工具服务 | IP地址查询/定位服务',
+      statusPageLink: 'https://ip.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    // 新增：萌推服务
+    {
+      id: 'gsyy_moepush',
+      name: '萌推消息推送服务',
+      method: 'GET',
+      target: 'https://moepush.gsyy.eu.org',
+      tooltip: '工具服务 | 萌推消息推送接口服务',
+      statusPageLink: 'https://moepush.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
 
     // ========== 开发工具 ==========
     {
@@ -209,6 +247,36 @@ const workerConfig: WorkerConfig = {
       target: 'https://workers.gsyy.eu.org/',
       tooltip: '开发工具 | Cloudflare Workers 自定义服务',
       statusPageLink: 'https://workers.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '开发工具'
+      },
+    },
+    // 新增：节点监控服务
+    {
+      id: 'gsyy_nodewarden',
+      name: '节点监控服务',
+      method: 'GET',
+      target: 'https://nodewarden.gsyy.eu.org',
+      tooltip: '开发工具 | 节点状态监控与管理服务',
+      statusPageLink: 'https://nodewarden.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '开发工具'
+      },
+    },
+    // 新增：证书续期助手
+    {
+      id: 'gsyy_renewhelper',
+      name: '证书续期助手',
+      method: 'GET',
+      target: 'https://renewhelper.gsyy.eu.org',
+      tooltip: '开发工具 | SSL证书自动续期辅助服务',
+      statusPageLink: 'https://renewhelper.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
       headers: {
@@ -291,8 +359,17 @@ const maintenances: MaintenanceConfig[] = [
 
       schedules.push({
         title: `${year}/${month} 例行维护`,
-        monitors: ['gsyy_github', 'gsyy_docker', 'gsyy_workers'], // 新增：添加gsyy_workers到维护计划
-        body: '开发工具类服务每月例行维护',
+        // 同步新增服务到维护计划
+        monitors: [
+          'gsyy_github', 
+          'gsyy_docker', 
+          'gsyy_workers',
+          'gsyy_nodewarden',
+          'gsyy_renewhelper',
+          'gsyy_ip',
+          'gsyy_moepush'
+        ], 
+        body: '开发工具+工具服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
         end: `${year}-${month}-01T03:00:00.000+08:00`,
         color: 'gray',
