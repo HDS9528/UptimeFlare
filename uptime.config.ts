@@ -3,18 +3,14 @@ import { MaintenanceConfig, PageConfig, WorkerConfig } from './types/config'
 
 /**
  * 状态页面配置
- * 控制前端展示的标题、链接、分组等信息
  */
 const pageConfig: PageConfig = {
-  // 状态页的标题
   title: "洋芋蛋蛋的服务状态页",
-  // 显示在状态页头部的链接，可以将 `highlight` 设置为 `true` 来突出显示
   links: [
     { link: 'https://gsyy.eu.org/', label: '洋芋蛋蛋主站' },
     { link: 'https://map.gsyy.eu.org/', label: '旅行足迹' },
     { link: 'mailto:chenxiangyang2017@outlook.com', label: '联系我', highlight: true },
   ],
-  // [可选] 对监控项进行分组
   group: {
     '🌐 核心站点': ['gsyy_main'],
     '🗺️ 特色服务': ['gsyy_map'],
@@ -25,40 +21,25 @@ const pageConfig: PageConfig = {
       'gsyy_imbad', 
       'gsyy_memos', 
       'gsyy_cloudpaste',
-      'gsyy_ip',        // 新增IP查询服务
-      'gsyy_moepush'    // 新增萌推服务
+      'gsyy_ip',
+      'gsyy_moepush',
+      'gsyy_nodewarden'  // ✅ 已移到这里：工具服务
     ],
     '💻 开发工具': [
       'gsyy_github', 
       'gsyy_docker', 
       'gsyy_workers',
-      'gsyy_nodewarden',    // 新增节点监控服务
-      'gsyy_renewhelper'   // 新增续期助手服务
-    ] 
+      'gsyy_renewhelper'
+    ]
   },
-
-  // [可选] 设置网站图标的路径，未指定时默认使用 '/favicon.png'
-  // favicon: 'https://gsyy.eu.org/favicon.ico',
-  // [可选] 设置Logo的路径，未指定时默认使用 '/logo.svg'
-  // logo: 'https://gsyy.eu.org/logo.svg',
-  // [可选] 维护相关配置
-  maintenances: {
-    upcomingColor: 'gray',
-  },
-  // [可选] 自定义页脚HTML内容
-  //customFooter: '<p>洋芋蛋蛋的服务监控 © 2026</p>',
+  maintenances: { upcomingColor: 'gray' },
 }
 
 /**
  * 监控 Worker 配置
- * 定义监控项、通知规则、回调函数等核心功能
  */
 const workerConfig: WorkerConfig = {
-  // [可选] 除非状态发生变化，否则每隔N分钟写入一次KV存储，默认值为3
   kvWriteCooldownMinutes: 3,
-  // 取消下面这行的注释可以为状态页和API启用HTTP基本认证
-  // passwordProtection: 'yangyu:123456',
-  // 在这里定义所有监控项
   monitors: [
     // ========== 核心站点 ==========
     {
@@ -68,7 +49,6 @@ const workerConfig: WorkerConfig = {
       target: 'https://gsyy.eu.org',
       tooltip: '核心站点 | 洋芋蛋蛋个人博客/技术分享站',
       statusPageLink: 'https://gsyy.eu.org',
-      hideLatencyChart: false,
       expectedCodes: [200],
       timeout: 10000,
       headers: {
@@ -179,7 +159,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
-    // 新增：IP查询服务
     {
       id: 'gsyy_ip',
       name: 'IP地址查询服务',
@@ -194,7 +173,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
-    // 新增：萌推服务
     {
       id: 'gsyy_moepush',
       name: '萌推消息推送服务',
@@ -209,6 +187,21 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
+    // ✅ 已修正：Bitwarden 密码管理 → 工具服务
+    {
+      id: 'gsyy_nodewarden',
+      name: 'Bitwarden密码管理',
+      method: 'GET',
+      target: 'https://nodewarden.gsyy.eu.org',
+      tooltip: '工具服务 | NodeWarden (Bitwarden兼容) 密码管理服务',
+      statusPageLink: 'https://nodewarden.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'  // ✅ 分组已改
+      },
+    },
 
     // ========== 开发工具 ==========
     {
@@ -216,7 +209,7 @@ const workerConfig: WorkerConfig = {
       name: 'GitHub文件加速',
       method: 'GET',
       target: 'https://github.gsyy.eu.org',
-      tooltip: '开发工具 | 基于Cloudflare的GitHub加速工具',
+      tooltip: '开发工具 | GitHub加速工具',
       statusPageLink: 'https://github.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
@@ -239,7 +232,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '开发工具'
       },
     },
-    // 新增：Workers服务监控项
     {
       id: 'gsyy_workers',
       name: 'Cloudflare Workers服务',
@@ -254,22 +246,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '开发工具'
       },
     },
-    // 新增：节点监控服务
-    {
-      id: 'gsyy_nodewarden',
-      name: '节点监控服务',
-      method: 'GET',
-      target: 'https://nodewarden.gsyy.eu.org',
-      tooltip: '开发工具 | 节点状态监控与管理服务',
-      statusPageLink: 'https://nodewarden.gsyy.eu.org',
-      expectedCodes: [200],
-      timeout: 10000,
-      headers: {
-        'User-Agent': 'Uptimeflare',
-        'X-Monitor-Group': '开发工具'
-      },
-    },
-    // 新增：证书续期助手
     {
       id: 'gsyy_renewhelper',
       name: '证书续期助手',
@@ -286,7 +262,6 @@ const workerConfig: WorkerConfig = {
     },
   ],
 
-  // [可选] 通知相关配置（修正缩进，和monitors同级）
   notification: {
     webhook: {
       url: 'https://bark.gsyy.eu.org/y5Lf3dVoTARBd5ytu2po5X/',
@@ -309,7 +284,6 @@ const workerConfig: WorkerConfig = {
     skipErrorChangeNotification: false,
   },
 
-  // [可选] 状态变化回调函数（修正缩进，和notification同级）
   callbacks: {
     onStatusChange: async (
       env: any,
@@ -321,37 +295,17 @@ const workerConfig: WorkerConfig = {
     ) => {
       console.log(`监控项 ${monitor.id} 状态变化：${isUp ? '恢复' : '故障'}，原因：${reason}`);
     },
-    onIncident: async (
-      env: any,
-      monitor: any,
-      timeIncidentStart: number,
-      timeNow: number,
-      reason: string
-    ) => {
-      // 故障持续逻辑
-    },
+    onIncident: async () => {},
   },
 }
 
 /**
  * 维护窗口配置
- * 维护期间状态页会显示提示，且跳过故障通知
  */
 const maintenances: MaintenanceConfig[] = [
-  // 示例维护配置（按需启用）
-  // {
-  //   monitors: ['gsyy_main'],
-  //   title: '服务器例行维护',
-  //   body: '服务器软件升级，预计持续1小时',
-  //   start: '2026-04-01T00:00:00+08:00',
-  //   end: '2026-04-01T01:00:00+08:00',
-  //   color: 'blue',
-  // },
-  // 示例：每月1日凌晨1点到3点的例行维护
   ...(function () {
     const schedules = []
     const today = new Date()
-
     for (let i = 0; i <= 2; i++) {
       const date = new Date(today.getFullYear(), today.getMonth() + i, 1)
       const year = date.getFullYear()
@@ -359,15 +313,14 @@ const maintenances: MaintenanceConfig[] = [
 
       schedules.push({
         title: `${year}/${month} 例行维护`,
-        // 同步新增服务到维护计划
         monitors: [
           'gsyy_github', 
           'gsyy_docker', 
           'gsyy_workers',
-          'gsyy_nodewarden',
           'gsyy_renewhelper',
           'gsyy_ip',
-          'gsyy_moepush'
+          'gsyy_moepush',
+          'gsyy_nodewarden'  // ✅ 维护计划也同步正确
         ], 
         body: '开发工具+工具服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
@@ -379,5 +332,4 @@ const maintenances: MaintenanceConfig[] = [
   })(),
 ]
 
-// 导出配置（请勿修改）
 export { maintenances, pageConfig, workerConfig }
