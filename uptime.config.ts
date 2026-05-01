@@ -20,10 +20,13 @@ const pageConfig: PageConfig = {
       'gsyy_analytics', 
       'gsyy_imbad', 
       'gsyy_memos', 
-      'gsyy_cloudpaste',
       'gsyy_ip',
       'gsyy_moepush',
-      'gsyy_nodewarden'  // ✅ 已移到这里：工具服务
+      'gsyy_nodewarden',
+      'gsyy_sms',
+      'gsyy_newsnow',
+      'gsyy_chat',
+      'gsyy_movecar'
     ],
     '💻 开发工具': [
       'gsyy_github', 
@@ -146,20 +149,6 @@ const workerConfig: WorkerConfig = {
       },
     },
     {
-      id: 'gsyy_cloudpaste',
-      name: '云粘贴板服务',
-      method: 'GET',
-      target: 'https://cloudpaste.gsyy.eu.org',
-      tooltip: '工具服务 | 跨设备云粘贴板工具',
-      statusPageLink: 'https://cloudpaste.gsyy.eu.org',
-      expectedCodes: [200],
-      timeout: 10000,
-      headers: {
-        'User-Agent': 'Uptimeflare',
-        'X-Monitor-Group': '工具服务'
-      },
-    },
-    {
       id: 'gsyy_ip',
       name: 'IP地址查询服务',
       method: 'GET',
@@ -187,7 +176,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
-    // ✅ 已修正：Bitwarden 密码管理 → 工具服务
     {
       id: 'gsyy_nodewarden',
       name: 'Bitwarden密码管理',
@@ -199,7 +187,68 @@ const workerConfig: WorkerConfig = {
       timeout: 10000,
       headers: {
         'User-Agent': 'Uptimeflare',
-        'X-Monitor-Group': '工具服务'  // ✅ 分组已改
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    // 新增：信息转发推送服务
+    {
+      id: 'gsyy_sms',
+      name: '信息转发推送服务',
+      method: 'GET',
+      target: 'https://sms.gsyy.eu.org/health',
+      tooltip: '工具服务 | 信息转发推送健康检测接口',
+      statusPageLink: 'https://sms.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+      responseKeyword: 'ok',
+    },
+    // 新增：每日新闻
+    {
+      id: 'gsyy_newsnow',
+      name: '每日新闻',
+      method: 'GET',
+      target: 'https://newsnow.gsyy.eu.org',
+      tooltip: '工具服务 | 每日新闻资讯服务',
+      statusPageLink: 'https://newsnow.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    // 新增：在线聊天室
+    {
+      id: 'gsyy_chat',
+      name: '在线聊天室',
+      method: 'GET',
+      target: 'https://chat.gsyy.eu.org',
+      tooltip: '工具服务 | 在线聊天室服务',
+      statusPageLink: 'https://chat.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    // 新增：挪车服务
+    {
+      id: 'gsyy_movecar',
+      name: '挪车服务',
+      method: 'GET',
+      target: 'https://movecar.gsyy.eu.org',
+      tooltip: '工具服务 | 匿名挪车通知服务',
+      statusPageLink: 'https://movecar.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
       },
     },
 
@@ -248,10 +297,10 @@ const workerConfig: WorkerConfig = {
     },
     {
       id: 'gsyy_renewhelper',
-      name: '证书续期助手',
+      name: '续期服务助手',
       method: 'GET',
       target: 'https://renewhelper.gsyy.eu.org',
-      tooltip: '开发工具 | SSL证书自动续期辅助服务',
+      tooltip: '开发工具 | 自动续期辅助服务',
       statusPageLink: 'https://renewhelper.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
@@ -320,7 +369,11 @@ const maintenances: MaintenanceConfig[] = [
           'gsyy_renewhelper',
           'gsyy_ip',
           'gsyy_moepush',
-          'gsyy_nodewarden'  // ✅ 维护计划也同步正确
+          'gsyy_nodewarden',
+          'gsyy_sms',
+          'gsyy_newsnow',
+          'gsyy_chat',
+          'gsyy_movecar'
         ], 
         body: '开发工具+工具服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
