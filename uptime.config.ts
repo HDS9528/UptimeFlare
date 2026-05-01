@@ -26,7 +26,8 @@ const pageConfig: PageConfig = {
       'gsyy_sms',
       'gsyy_newsnow',
       'gsyy_chat',
-      'gsyy_movecar'
+      'gsyy_movecar',
+      'gsyy_iptv'
     ],
     '💻 开发工具': [
       'gsyy_github', 
@@ -190,7 +191,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
-    // 新增：信息转发推送服务
     {
       id: 'gsyy_sms',
       name: '信息转发推送服务',
@@ -206,7 +206,6 @@ const workerConfig: WorkerConfig = {
       },
       responseKeyword: 'ok',
     },
-    // 新增：每日新闻
     {
       id: 'gsyy_newsnow',
       name: '每日新闻',
@@ -221,7 +220,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
-    // 新增：在线聊天室
     {
       id: 'gsyy_chat',
       name: '在线聊天室',
@@ -236,7 +234,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
-    // 新增：挪车服务
     {
       id: 'gsyy_movecar',
       name: '挪车服务',
@@ -244,6 +241,20 @@ const workerConfig: WorkerConfig = {
       target: 'https://movecar.gsyy.eu.org',
       tooltip: '工具服务 | 匿名挪车通知服务',
       statusPageLink: 'https://movecar.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    {
+      id: 'gsyy_iptv',
+      name: 'IPTV服务',
+      method: 'GET',
+      target: 'https://iptv.gsyy.eu.org',
+      tooltip: '工具服务 | IPTV直播服务',
+      statusPageLink: 'https://iptv.gsyy.eu.org',
       expectedCodes: [200],
       timeout: 10000,
       headers: {
@@ -373,7 +384,8 @@ const maintenances: MaintenanceConfig[] = [
           'gsyy_sms',
           'gsyy_newsnow',
           'gsyy_chat',
-          'gsyy_movecar'
+          'gsyy_movecar',
+          'gsyy_iptv'
         ], 
         body: '开发工具+工具服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
