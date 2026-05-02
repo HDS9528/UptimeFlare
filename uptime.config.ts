@@ -27,7 +27,9 @@ const pageConfig: PageConfig = {
       'gsyy_newsnow',
       'gsyy_chat',
       'gsyy_movecar',
-      'gsyy_iptv'
+      'gsyy_iptv',
+      'gsyy_sub', // 新增
+      'gsyy_novel' // 新增
     ],
     '💻 开发工具': [
       'gsyy_github', 
@@ -262,6 +264,38 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
+    
+    // ========== 新增：节点聚合 ==========
+    {
+      id: 'gsyy_sub',
+      name: '节点聚合服务',
+      method: 'GET',
+      target: 'https://sub.gsyy.eu.org/',
+      tooltip: '工具服务 | 节点聚合订阅服务',
+      statusPageLink: 'https://sub.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    
+    // ========== 新增：小说站点 ==========
+    {
+      id: 'gsyy_novel',
+      name: '小说阅读站点',
+      method: 'GET',
+      target: 'https://novel.gsyy.eu.org/',
+      tooltip: '工具服务 | 在线小说阅读服务',
+      statusPageLink: 'https://novel.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
 
     // ========== 开发工具 ==========
     {
@@ -385,7 +419,9 @@ const maintenances: MaintenanceConfig[] = [
           'gsyy_newsnow',
           'gsyy_chat',
           'gsyy_movecar',
-          'gsyy_iptv'
+          'gsyy_iptv',
+          'gsyy_sub', // 新增
+          'gsyy_novel' // 新增
         ], 
         body: '开发工具+工具服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
