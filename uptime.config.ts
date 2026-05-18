@@ -13,7 +13,7 @@ const pageConfig: PageConfig = {
   ],
   group: {
     '🌐 核心站点': ['gsyy_main'],
-    '🗺️ 特色服务': ['gsyy_map'],
+    '🗺️ 特色服务': ['gsyy_map', 'gsyy_music'], // 新增音乐播放器
     '🔧 工具服务': [
       'gsyy_bark', 
       'gsyy_image', 
@@ -28,8 +28,8 @@ const pageConfig: PageConfig = {
       'gsyy_chat',
       'gsyy_movecar',
       'gsyy_iptv',
-      'gsyy_sub', // 新增
-      'gsyy_novel' // 新增
+      'gsyy_sub',
+      'gsyy_novel'
     ],
     '💻 开发工具': [
       'gsyy_github', 
@@ -71,6 +71,21 @@ const workerConfig: WorkerConfig = {
       target: 'https://map.gsyy.eu.org',
       tooltip: '特色服务 | 旅行足迹地图服务',
       statusPageLink: 'https://map.gsyy.eu.org',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '特色服务'
+      },
+    },
+    // ========== 新增：音乐播放器 ==========
+    {
+      id: 'gsyy_music',
+      name: '音乐播放器',
+      method: 'GET',
+      target: 'https://music.gsyy.eu.org/',
+      tooltip: '特色服务 | 在线音乐播放服务',
+      statusPageLink: 'https://music.gsyy.eu.org/',
       expectedCodes: [200],
       timeout: 10000,
       headers: {
@@ -420,10 +435,11 @@ const maintenances: MaintenanceConfig[] = [
           'gsyy_chat',
           'gsyy_movecar',
           'gsyy_iptv',
-          'gsyy_sub', // 新增
-          'gsyy_novel' // 新增
+          'gsyy_sub',
+          'gsyy_novel',
+          'gsyy_music' // 新增音乐播放器到维护列表
         ], 
-        body: '开发工具+工具服务每月例行维护',
+        body: '开发工具+工具服务+特色服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
         end: `${year}-${month}-01T03:00:00.000+08:00`,
         color: 'gray',
