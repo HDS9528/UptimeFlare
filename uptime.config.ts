@@ -1,6 +1,5 @@
 // 导入必要的类型定义（请勿修改）
 import { MaintenanceConfig, PageConfig, WorkerConfig } from './types/config'
-
 /**
  * 状态页面配置
  */
@@ -27,20 +26,25 @@ const pageConfig: PageConfig = {
       'gsyy_newsnow',
       'gsyy_chat',
       'gsyy_movecar',
-      'gsyy_iptv',
       'gsyy_sub',
-      'gsyy_novel'
+      'gsyy_novel',
+      // 新增
+      'gsyy_net',
+      'gsyy_tools',
+      'gsyy_note',
+      'gsyy_sbti'
     ],
     '💻 开发工具': [
       'gsyy_github', 
       'gsyy_docker', 
       'gsyy_workers',
-      'gsyy_renewhelper'
+      'gsyy_renewhelper',
+      // 新增状态监控页
+      'gsyy_up'
     ]
   },
   maintenances: { upcomingColor: 'gray' },
 }
-
 /**
  * 监控 Worker 配置
  */
@@ -62,7 +66,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '核心站点'
       },
     },
-
     // ========== 特色服务 ==========
     {
       id: 'gsyy_map',
@@ -107,7 +110,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '特色服务'
       },
     },
-
     // ========== 工具服务 ==========
     {
       id: 'gsyy_bark',
@@ -280,20 +282,6 @@ const workerConfig: WorkerConfig = {
       },
     },
     {
-      id: 'gsyy_iptv',
-      name: 'IPTV服务',
-      method: 'GET',
-      target: 'https://iptv.gsyy.eu.org',
-      tooltip: '工具服务 | IPTV直播服务',
-      statusPageLink: 'https://iptv.gsyy.eu.org',
-      expectedCodes: [200],
-      timeout: 10000,
-      headers: {
-        'User-Agent': 'Uptimeflare',
-        'X-Monitor-Group': '工具服务'
-      },
-    },
-    {
       id: 'gsyy_sub',
       name: '节点聚合服务',
       method: 'GET',
@@ -321,7 +309,63 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '工具服务'
       },
     },
-
+    // ==== 新增监控项 ====
+    {
+      id: 'gsyy_net',
+      name: 'Net网络服务',
+      method: 'GET',
+      target: 'https://net.gsyy.eu.org/',
+      tooltip: '工具服务 | Net网络相关服务',
+      statusPageLink: 'https://net.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    {
+      id: 'gsyy_tools',
+      name: '工具箱',
+      method: 'GET',
+      target: 'https://tools.gsyy.eu.org/',
+      tooltip: '工具服务 | 在线工具箱合集',
+      statusPageLink: 'https://tools.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    {
+      id: 'gsyy_note',
+      name: '笔记站点',
+      method: 'GET',
+      target: 'https://note.gsyy.eu.org/',
+      tooltip: '工具服务 | 在线笔记站点',
+      statusPageLink: 'https://note.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
+    {
+      id: 'gsyy_sbti',
+      name: 'SBTI服务',
+      method: 'GET',
+      target: 'https://sbti.gsyy.eu.org/',
+      tooltip: '工具服务 | SBTI相关服务',
+      statusPageLink: 'https://sbti.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '工具服务'
+      },
+    },
     // ========== 开发工具 ==========
     {
       id: 'gsyy_github',
@@ -379,8 +423,21 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '开发工具'
       },
     },
+    {
+      id: 'gsyy_up',
+      name: '服务状态监控页',
+      method: 'GET',
+      target: 'https://up.gsyy.eu.org/',
+      tooltip: '开发工具 | Uptimeflare 状态展示主页',
+      statusPageLink: 'https://up.gsyy.eu.org/',
+      expectedCodes: [200],
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Uptimeflare',
+        'X-Monitor-Group': '开发工具'
+      },
+    },
   ],
-
   notification: {
     webhook: {
       url: 'https://bark.gsyy.eu.org/y5Lf3dVoTARBd5ytu2po5X/',
@@ -402,7 +459,6 @@ const workerConfig: WorkerConfig = {
     gracePeriod: 3,
     skipErrorChangeNotification: false,
   },
-
   callbacks: {
     onStatusChange: async (
       env: any,
@@ -417,7 +473,6 @@ const workerConfig: WorkerConfig = {
     onIncident: async () => {},
   },
 }
-
 /**
  * 维护窗口配置
  */
@@ -429,7 +484,6 @@ const maintenances: MaintenanceConfig[] = [
       const date = new Date(today.getFullYear(), today.getMonth() + i, 1)
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
-
       schedules.push({
         title: `${year}/${month} 例行维护`,
         monitors: [
@@ -444,11 +498,16 @@ const maintenances: MaintenanceConfig[] = [
           'gsyy_newsnow',
           'gsyy_chat',
           'gsyy_movecar',
-          'gsyy_iptv',
           'gsyy_sub',
           'gsyy_novel',
           'gsyy_music',
-          'gsyy_news' // 加入维护
+          'gsyy_news', // 加入维护
+          // 新增维护列表
+          'gsyy_net',
+          'gsyy_tools',
+          'gsyy_note',
+          'gsyy_sbti',
+          'gsyy_up'
         ], 
         body: '开发工具+工具服务+特色服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
@@ -459,5 +518,4 @@ const maintenances: MaintenanceConfig[] = [
     return schedules
   })(),
 ]
-
 export { maintenances, pageConfig, workerConfig }
