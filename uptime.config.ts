@@ -38,9 +38,7 @@ const pageConfig: PageConfig = {
       'gsyy_github', 
       'gsyy_docker', 
       'gsyy_workers',
-      'gsyy_renewhelper',
-      // 新增状态监控页
-      'gsyy_up'
+      'gsyy_renewhelper'
     ]
   },
   maintenances: { upcomingColor: 'gray' },
@@ -423,20 +421,6 @@ const workerConfig: WorkerConfig = {
         'X-Monitor-Group': '开发工具'
       },
     },
-    {
-      id: 'gsyy_up',
-      name: '服务状态监控页',
-      method: 'GET',
-      target: 'https://up.gsyy.eu.org/',
-      tooltip: '开发工具 | Uptimeflare 状态展示主页',
-      statusPageLink: 'https://up.gsyy.eu.org/',
-      expectedCodes: [200],
-      timeout: 10000,
-      headers: {
-        'User-Agent': 'Uptimeflare',
-        'X-Monitor-Group': '开发工具'
-      },
-    },
   ],
   notification: {
     webhook: {
@@ -449,9 +433,7 @@ const workerConfig: WorkerConfig = {
         body: '$MSG',
         sound: 'bell',
         isArchive: '1',
-        group: '网站监控',
-        url: 'https://up.gsyy.eu.org',
-        icon: 'https://day.app/assets/images/avatar.jpg'
+        group: '网站监控'
       },
       timeout: 10000,
     },
@@ -501,13 +483,11 @@ const maintenances: MaintenanceConfig[] = [
           'gsyy_sub',
           'gsyy_novel',
           'gsyy_music',
-          'gsyy_news', // 加入维护
-          // 新增维护列表
+          'gsyy_news',
           'gsyy_net',
           'gsyy_tools',
           'gsyy_note',
-          'gsyy_sbti',
-          'gsyy_up'
+          'gsyy_sbti'
         ], 
         body: '开发工具+工具服务+特色服务每月例行维护',
         start: `${year}-${month}-01T01:00:00.000+08:00`,
